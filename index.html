@@ -133,10 +133,15 @@
                 <tr>
                     <th data-priority="3">Option</th>
                     <th data-priority="1">Portfolio Size at Retirement</th>
-                    <th data-priority="2">Monthly Savings Required</th>
+                    <th data-priority="2" class="currentPortfolio">Monthly Savings Required</th>
                 </tr>
                 </thead>
                 <tbody>
+                <tr class="currentPortfolio" style="display: none;">
+                    <td>Current portfolio</td>
+                    <td data-content="portfolio_num"></td>
+                    <td data-content=""></td>
+                </tr>
                 <tr>
                     <td>Run the portfolio Down to Zero</td>
                     <td data-content="minRetPortfolio_fmt"></td>
@@ -148,7 +153,7 @@
                     <td data-content="maintainPortfolioMonthly_fmt"></td>
                 </tr>
                 <tr>
-                    <td>Maintain the same dollar amount, adjusted for inflation</td>
+                    <td>Maintain the same dollar amount, inflation adjusted</td>
                     <td data-content="maintainInfAdjPortfolio_fmt"></td>
                     <td data-content="maintainInfAdjPortfolioMonthly_fmt"></td>
                 </tr>
@@ -311,6 +316,7 @@
             minPortMonthly = -PMT(invReturn_num, 12, yrsToRet_num * 12, -portfolio_num, minRetPortfolio);
         }
         var minPortMonthly_fmt = '$' + Number(minPortMonthly.toFixed(0)).toLocaleString();
+        if (retYear == "Currently retired") {minPortMonthly_fmt = '';}
         
 
         // II. The portfolio required to end retirement with your original minimum portfolio
@@ -325,6 +331,7 @@
             maintainPortfolioMonthly = -PMT(invReturn_num, 12, yrsToRet_num * 12, -portfolio_num, maintainPortfolio);
         }
         var maintainPortfolioMonthly_fmt = '$' + Number(maintainPortfolioMonthly.toFixed(0)).toLocaleString();
+        if (retYear == "Currently retired") {maintainPortfolioMonthly_fmt = '';}
 
 
         // III. The portfolio required to end retirement with your original minimum portfolio, adjusted for inflation
@@ -340,6 +347,7 @@
             maintainInfAdjPortfolioMonthly = -PMT(invReturn_num, 12, yrsToRet_num * 12, -portfolio_num, maintainInfAdjPortfolio);
         }
         var maintainInfAdjPortfolioMonthly_fmt = '$' + Number(maintainInfAdjPortfolioMonthly.toFixed(0)).toLocaleString();
+        if (retYear == "Currently retired") {maintainInfAdjPortfolioMonthly_fmt = '';}
 
 
         /**
@@ -355,6 +363,7 @@
                     retYear: retYear,
                     lifeExpectancy: lifeExpectancy,
                     initRetIncome_fmt: initRetIncome_fmt,
+                    portfolio_num: '$' + Number(portfolio_num.toFixed(0)).toLocaleString(),
                     minRetPortfolio_fmt: minRetPortfolio_fmt,
                     minPortMonthly_fmt: minPortMonthly_fmt,
                     maintainPortfolio_fmt: maintainPortfolio_fmt,
@@ -363,6 +372,13 @@
                     maintainInfAdjPortfolioMonthly_fmt: maintainInfAdjPortfolioMonthly_fmt
                 }
         );
+
+        // post-rendering toggle elements if currently retired
+        if (retYear == "Currently retired") {
+            $("tr.currentPortfolio").show();
+            $("th.currentPortfolio").hide();
+        }
+
     });
 
 
@@ -370,7 +386,6 @@
      * any jQuery functions
      */
     $(document).ready(function () {
-
 
     });
 </script>
