@@ -3,6 +3,15 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
+    <!--                                   -->
+    <!-- Mobile application to calculate   -->
+    <!-- the amount to save to have enough -->
+    <!-- for retirement                    -->
+    <!--                                   -->
+    <!-- George Fisher                     -->
+    <!-- https://github.com/grfiv/capneed  -->
+    <!--                                   -->
+
     <!-- jQuery Mobile -->
     <link rel="stylesheet" href="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
 
@@ -25,7 +34,7 @@
     <!-- autoNumeric -->
     <script src="autoNumeric-min.js"></script> <!-- http://www.decorplanit.com/plugin/ -->
 
-    <!-- basic financial calculations -->
+    <!-- my own basic financial calculations -->
     <script src="fincalc.js"></script>
 
 
@@ -33,6 +42,7 @@
 <body>
 <!--           -->
 <!-- Main Page -->
+<!--           -->
 <section data-role="page" id="pageone" data-fullscreen="true">
 
     <header data-role="header">
@@ -98,8 +108,9 @@
 
 </section>
 
-<!--             -->
-<!-- Answer Page -->
+<!--              -->
+<!-- Results Page -->
+<!--              -->
 <section data-role="page" id="pagetwo">
 
     <header data-role="header" data-add-back-btn="true">
@@ -150,6 +161,7 @@
 
 <!--           -->
 <!-- Help Page -->
+<!--           -->
 <section data-role="page" id="pagethree">
 
     <header data-role="header" data-add-back-btn="true">
@@ -183,7 +195,6 @@
             <dd>How much money (in today's dollars) will you need from your investment every year in retirement?</dd>
         </dl>
 
-
         <div class="ui-corner-all custom-corners" style="margin-top:10px;">
             <div class="ui-bar ui-bar-a">
                 <h3>Please Note</h3>
@@ -199,7 +210,6 @@
             </div>
         </div>
 
-
     </main>
 
     <footer data-role="footer">
@@ -208,7 +218,9 @@
 
 </section>
 
+<!--                                       -->
 <!-- code driving the calculations follows -->
+<!--                                       -->
 
 <script>
     /**
@@ -247,7 +259,7 @@
 
 <script>
     /**
-     * When the Caluclate button is clicked, calculate the answer
+     * When the Calculate button is clicked, calculate the answer
      *
      */
     $("#calc-btn").click(function () {
