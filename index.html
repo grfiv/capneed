@@ -134,7 +134,7 @@
                 <tr>
                     <th data-priority="3">Option</th>
                     <th data-priority="1">Portfolio Size at Retirement</th>
-                    <th data-priority="2" class="currentPortfolio">Monthly Savings Required</th>
+                    <th data-priority="2">Monthly Savings Required</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -376,8 +376,8 @@
 
         // post-rendering toggle elements if currently retired
         if (retYear == "Currently retired") {
-            $("tr.currentPortfolio").show();
-            $("th.currentPortfolio").hide();
+            $("tr.currentPortfolio").show();                                              // display the current portfolio row
+            $("#objectivesTable th:last-child, #objectivesTable td:last-child").remove(); // remove the last column
         }
 
     });
