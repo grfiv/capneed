@@ -3,6 +3,7 @@
 <head>
     <!-- <meta name="viewport" content="width=device-width, initial-scale=1"> -->
     <meta name="viewport" content="user-scalable=no,width=device-width,initial-scale=1.0,maximum-scale=1.0" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
 
     <!--                                   -->
     <!-- Mobile application to calculate   -->
@@ -13,8 +14,23 @@
     <!-- https://github.com/grfiv/capneed  -->
     <!--                                   -->
 
+    <!-- jQuery -->
+    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+
     <!-- jQuery Mobile -->
     <link rel="stylesheet" href="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
+    <script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+
+    <!-- jQuery Template -->
+    <script src="js/jquery.loadTemplate.min.js"></script> <!-- https://github.com/codepb/jquery-template -->
+
+    <!-- jQuery-confirm looks nice, requires bootstrap https://craftpip.github.io/jquery-confirm/ -->
+
+    <!-- autoNumeric -->
+    <script src="js/autoNumeric-min.js"></script> <!-- http://www.decorplanit.com/plugin/ -->
+
+    <!-- my own basic financial calculations -->
+    <script src="js/fincalc.js"></script>
 
     <style>
         /**
@@ -25,20 +41,6 @@
         }
     </style>
 
-    <!-- jQuery Mobile -->
-    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
-    <script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
-
-    <!-- jQuery Template -->
-    <script src="jquery.loadTemplate.min.js"></script> <!-- https://github.com/codepb/jquery-template -->
-
-    <!-- autoNumeric -->
-    <script src="autoNumeric-min.js"></script> <!-- http://www.decorplanit.com/plugin/ -->
-
-    <!-- my own basic financial calculations -->
-    <script src="fincalc.js"></script>
-
-
 </head>
 <body>
 <!--           -->
@@ -47,7 +49,7 @@
 <section data-role="page" id="pageone" data-fullscreen="true">
 
     <header data-role="header">
-        <h1>Saving for retirement</h1>
+        <p style="text-align: center;">Saving for retirement</p>
     </header>
 
     <main data-role="main" class="ui-content">
@@ -55,8 +57,8 @@
             <!-- input fields -->
             <div class="ui-field-contain">
                 <label for="yrs-to-ret">Years to retirement:</label>
-                <input type="number" name="yrs-to-ret" id="yrs-to-ret" value="10" data-mini="true"
-                       placeholder="How many years until you retire?">
+                <input type="text" name="yrs-to-ret" id="yrs-to-ret" value="10" data-mini="true"
+                       placeholder="How many years until you retire?" data-v-min="0" data-v-max="99" data-w-empty="zero">
             </div>
             <div class="ui-field-contain">
                 <label for="portfolio">Current portfolio:</label>
@@ -83,8 +85,8 @@
 
             <div class="ui-field-contain">
                 <label for="yrs-in-ret">Years in retirement:</label>
-                <input type="number" name="yrs-in-ret" id="yrs-in-ret" value="30" data-mini="true"
-                       placeholder="How many years will you be retired?">
+                <input type="text" name="yrs-in-ret" id="yrs-in-ret" value="30" data-mini="true"
+                       placeholder="How many years will you be retired?" data-v-min="0" data-v-max="99" data-w-empty="zero">
             </div>
             <div class="ui-field-contain">
                 <label for="income">Expected income:</label>
@@ -96,11 +98,11 @@
             <!-- buttons -->
             <div class="ui-body ui-body-a">
                 <fieldset class="ui-grid-a">
+                    <a href="#pagetwo" data-role="button" data-inline="true" data-theme="b" data-icon="info"
+                       data-mini="true" id="calc-btn">Calculate</a>
                     <a href="#pagethree" data-role="button" data-inline="true" data-icon="info"
                        data-mini="true">Help</a>
                     <input type="reset" value="Reset" data-inline="true" data-icon="delete" data-mini="true">
-                    <a href="#pagetwo" data-role="button" data-inline="true" data-theme="b" data-icon="info"
-                       data-mini="true" id="calc-btn">Calculate</a>
                 </fieldset>
             </div>
 
@@ -161,6 +163,18 @@
                 </tbody>
             </table>
         </script>
+        <hr>
+        <p><strong>Options:</strong> at the end of your life expectancy ...</p>
+        <dl>
+            <dt>Run the portfolio Down to Zero</dt>
+            <dd>your portfolio is zero.</dd>
+
+            <dt>Maintain the same dollar amount</dt>
+            <dd>your portfolio is the same amount as on the first day of retirement.</dd>
+
+            <dt>Maintain the same dollar amount, inflation adjusted</dt>
+            <dd>your portfolio is the same amount as on the first day of retirement, increased for inflation.</dd>
+        </dl>
 
     </main>
 </section>
@@ -171,7 +185,7 @@
 <section data-role="page" id="pagethree">
 
     <header data-role="header" data-add-back-btn="true">
-        <h1>Saving for retirement: Help page</h1>
+        <p style="text-align: center;">Saving for retirement: Help page</p>
     </header>
 
     <main data-role="main" class="ui-content">
@@ -229,38 +243,7 @@
 <!--                                       -->
 
 <script>
-    /**
-     * autoNumeric: ensure the inputs are nicely formatted
-     *              and within reasonable bounds
-     */
-    jQuery(function ($) {
-        $('#portfolio').autoNumeric('init', {aSign: '$', vMin: '0', vMax: '100000000', wEmpty: 'zero'});
-    });
-    jQuery(function ($) {
-        $('#inflation').autoNumeric('init', {
-            aSep: '',
-            aSign: '%',
-            pSign: 's',
-            vMin: '0',
-            vMax: '100',
-            wEmpty: 'zero',
-            lZero: 'deny'
-        });
-    });
-    jQuery(function ($) {
-        $('#inv-return').autoNumeric('init', {
-            aSep: '',
-            aSign: '%',
-            pSign: 's',
-            vMin: '0',
-            vMax: '100',
-            wEmpty: 'zero',
-            lZero: 'deny'
-        });
-    });
-    jQuery(function ($) {
-        $('#income').autoNumeric('init', {aSign: '$', vMin: '0', vMax: '1000000', wEmpty: 'zero'});
-    });
+
 </script>
 
 <script>
@@ -286,6 +269,8 @@
         var invReturn_num = parseFloat(invReturn);
         var yrsInRet_num = parseInt(yrsInRet);
         var income_num = parseFloat(income.replace(/[\$\,]/g, ''));
+
+        if (yrsInRet_num == 0) alert("Years In Retirement should be 1 or greater");
 
         // format retirement year and life expectancy
         // ------------------------------------------
@@ -387,6 +372,44 @@
      * any jQuery functions
      */
     $(document).ready(function () {
+        /**
+         * autoNumeric: ensure the inputs are nicely formatted
+         *              and within reasonable bounds
+         */
+        jQuery(function($) {
+            $('#yrs-to-ret').autoNumeric('init', {vMin: '0', vMax: '99', wEmpty: 'zero'});
+        });
+        jQuery(function($) {
+            $('#yrs-in-ret').autoNumeric('init', {vMin: '0', vMax: '99', wEmpty: 'zero'});
+        });
+        jQuery(function ($) {
+            $('#portfolio').autoNumeric('init', {aSign: '$', vMin: '0', vMax: '100000000', wEmpty: 'zero'});
+        });
+        jQuery(function ($) {
+            $('#inflation').autoNumeric('init', {
+                aSep: '',
+                aSign: '%',
+                pSign: 's',
+                vMin: '0',
+                vMax: '100',
+                wEmpty: 'zero',
+                lZero: 'deny'
+            });
+        });
+        jQuery(function ($) {
+            $('#inv-return').autoNumeric('init', {
+                aSep: '',
+                aSign: '%',
+                pSign: 's',
+                vMin: '0',
+                vMax: '100',
+                wEmpty: 'zero',
+                lZero: 'deny'
+            });
+        });
+        jQuery(function ($) {
+            $('#income').autoNumeric('init', {aSign: '$', vMin: '0', vMax: '1000000', wEmpty: 'zero'});
+        });
 
     });
 </script>
